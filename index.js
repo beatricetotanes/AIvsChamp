@@ -14,6 +14,7 @@ var countFirstChoice = 0;
 var champChoice;
 
 
+
 function firstChoice(){
   while (countFirstChoice<1) {
     choice = document.getElementById("choice").value;
@@ -41,22 +42,10 @@ function firstChoice(){
   }
 
   if (countFirstChoice==1) {
-    alert("You have already started the game.");
+    //alert("You have already started the game.");
   }
 
   startGame();
-}
-
-
-function AIChoice(){
-  var randomChoiceOfAI = Math.round((Math.random())*4);
-
-  if (randomChoiceOfAI < 3) {
-    AIpunchOrDefend = "p";
-    punchAI = Math.round((Math.random())*5);
-  }else {
-    AIpunchOrDefend = "d";
-  }
 }
 
 
@@ -106,10 +95,12 @@ function startGame(){
 
   if (first == "champ") {
     punchC = Math.round((Math.random())*5);
+    document.getElementById("moves").innerHTML += "You have punched with a damage of " + punchC + ".<br>";
     AIChoice();
     if (AIpunchOrDefend=="p") {
       damage = hpAI - punchC;
       hpAI = hpAI - punchC;
+      document.getElementById("moves").innerHTML += "AI has punched with a damage of " + punchAI + ".<br>";
       //punchAI = Math.round((Math.random())*5);
       //document.getElementById("output").innerHTML = "It's your turn. After choosing punch or defend, click next.";
     } else {
@@ -122,12 +113,18 @@ function startGame(){
         hpAI = hpAI - damage;
       }
       punchAI = 0 //Because AI defended
-      alert("AI defended, it's your turn.");
+      //alert("AI defended, it's your turn.");
+      document.getElementById("moves").innerHTML += "AI has defended, receiving " + damage + " damage.<br>";
     }
-    document.getElementById("hello").innerHTML = "It's your turn. After choosing punch or defend, click next.";
+    //document.getElementById("hello").innerHTML += "It's your turn. After choosing punch or defend, click next.";
   }else {
+
+    //alert("AI punched, it's your turn.");
     punchAI = Math.round((Math.random())*5);
-    next();
+    document.getElementById("moves").innerHTML += "AI has punched you with a damage of " + punchAI + ".<br>";
+
+    //DITO TAYO NAGSTOP
+
     //CChoice();
     //CMove();
   }
@@ -137,6 +134,17 @@ function startGame(){
 
 }
 
+function AIChoice(){
+  var randomChoiceOfAI = Math.round((Math.random())*4);
+
+  if (randomChoiceOfAI < 3) {
+    AIpunchOrDefend = "p";
+    punchAI = Math.round((Math.random())*5);
+  }else {
+    AIpunchOrDefend = "d";
+  }
+}
+
 function afterNext(){
   //var punchCFirst;
 
@@ -144,14 +152,19 @@ function afterNext(){
 //    punchC = Math.round((Math.random())*5);
     AIChoice();
     if (AIpunchOrDefend=="p") {
-      punchAI = Math.round((Math.random())*5);
-      damage = hpAI - punchC;
+      document.getElementById("moves").innerHTML += "AI has punched you with a damage of " + punchAI + ".<br>";
+      //alert("AI punched, it's your turn.");
+      //punchAI = Math.round((Math.random())*5);
+      //damage = hpAI - punchC;
       hpAI = hpAI - punchC;
       //punchAI = Math.round((Math.random())*5);
       //document.getElementById("output").innerHTML = "It's your turn. After choosing punch or defend, click next.";
     } else {
 
+      //alert("AI defended, it's your turn.");
+      punchAI = 0;
       damage = punchC-defend;
+
       //document.getElementById("output").innerHTML = "It's your turn. After choosing punch or defend, click next.";
       if (damage<=0) {
         damage = 0;
@@ -159,49 +172,77 @@ function afterNext(){
       }else {
         hpAI = hpAI - damage;
       }
+      document.getElementById("moves").innerHTML += "AI has defended, receiving " + damage + " damage.<br>";
     }
-    document.getElementById("hello").innerHTML = "It's your turn. After choosing punch or defend, click next.";
+    //document.getElementById("hello").innerHTML = "It's your turn. After choosing punch or defend, click next.";
 //  }else {
 
   //  CChoice();
   //  CMove();
 
 
-  document.getElementById("AIHealth").innerHTML = "Current HP of AI:" + hpAI;
-  document.getElementById("ChampHealth").innerHTML = "Current HP of Champ:" + hpC;
+  document.getElementById("AIHealth").innerHTML = "Current HP of AI: " + hpAI;
+  document.getElementById("ChampHealth").innerHTML = "Current HP of Champ: " + hpC;
 
 }
 
 
+function choiceUser(){
+  champChoice = document.getElementById("champChoice").value;
+  if (champChoice == "punchChamp") {
+    punchC = Math.round((Math.random())*5);
+    document.getElementById("moves").innerHTML += "You have punched with a damage of " + punchC + ".<br>";
+    damage = punchAI;
+      hpC = hpC - damage;
+  }else {
+    damage = punchAI - defend;
+    if (damage>=0) {
+      hpC = hpC - damage;
+    }else {
+      damage = 0;
+      hpC = hpC-damage;
+      punchC = 0;
+    }
+    document.getElementById("moves").innerHTML += "You have defended, receiving " + damage + " damage.<br>";
+  }
+}
+
 function next(){
   //document.getElementById("hello").innerHTML = "";
-  if (first=="champ") {
+
+  if (first == "champ") {
+
+      choiceUser();
+      afterNext();
+
+  }else {
     champChoice = document.getElementById("champChoice").value;
     if (champChoice == "punchChamp") {
       punchC = Math.round((Math.random())*5);
-      damage = punchAI - defend;
+      document.getElementById("moves").innerHTML += "You have punched with a damage of " + punchC + ".<br>";
+      //damage = punchAI - defend;
       //hpC = hpC - damage;
+        hpC = hpC - punchAI;
 
-      if (damage>=0) {
-        hpC = hpC - damage;
-      }else {
-        damage = 0;
-        hpC = hpC-damage;
-        //punchC = 0;
-      }
     }else {
       damage = punchAI - defend;
+      punchC = 0;
       if (damage>=0) {
         hpC = hpC - damage;
       }else {
         damage = 0;
         hpC = hpC-damage;
-        punchC = 0;
+
       }
+      document.getElementById("moves").innerHTML += "You have defended, receiving " + damage + " damage.<br>";
     }
-    //document.getElementById("hello").innerHTML = " ";
+    punchAI = 0;
+    afterNext();
   }
+
+    //document.getElementById("hello").innerHTML = " ";
+
   document.getElementById("AIHealth").innerHTML = "Current HP of AI:" + hpAI;
   document.getElementById("ChampHealth").innerHTML = "Current HP of Champ:" + hpC;
-  afterNext();
+
 }
