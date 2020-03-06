@@ -208,41 +208,43 @@ function choiceUser(){
 }
 
 function next(){
-  //document.getElementById("hello").innerHTML = "";
+  do {
+    if (first == "champ") {
 
-  if (first == "champ") {
-
-      choiceUser();
-      afterNext();
-
-  }else {
-    champChoice = document.getElementById("champChoice").value;
-    if (champChoice == "punchChamp") {
-      punchC = Math.round((Math.random())*5);
-      document.getElementById("moves").innerHTML += "You have punched with a damage of " + punchC + ".<br>";
-      //damage = punchAI - defend;
-      //hpC = hpC - damage;
-        hpC = hpC - punchAI;
+        choiceUser();
+        afterNext();
 
     }else {
-      damage = punchAI - defend;
-      punchC = 0;
-      if (damage>=0) {
-        hpC = hpC - damage;
+      champChoice = document.getElementById("champChoice").value;
+      if (champChoice == "punchChamp") {
+        punchC = Math.round((Math.random())*5);
+        document.getElementById("moves").innerHTML += "You have punched with a damage of " + punchC + ".<br>";
+        //damage = punchAI - defend;
+        //hpC = hpC - damage;
+          hpC = hpC - punchAI;
+
       }else {
-        damage = 0;
-        hpC = hpC-damage;
+        damage = punchAI - defend;
+        punchC = 0;
+        if (damage>=0) {
+          hpC = hpC - damage;
+        }else {
+          damage = 0;
+          hpC = hpC-damage;
 
+        }
+        document.getElementById("moves").innerHTML += "You have defended, receiving " + damage + " damage.<br>";
       }
-      document.getElementById("moves").innerHTML += "You have defended, receiving " + damage + " damage.<br>";
+      punchAI = 0;
+      afterNext();
     }
-    punchAI = 0;
-    afterNext();
-  }
 
-    //document.getElementById("hello").innerHTML = " ";
+      //document.getElementById("hello").innerHTML = " ";
 
-  document.getElementById("AIHealth").innerHTML = "Current HP of AI:" + hpAI;
-  document.getElementById("ChampHealth").innerHTML = "Current HP of Champ:" + hpC;
+    document.getElementById("AIHealth").innerHTML = "Current HP of AI:" + hpAI;
+    document.getElementById("ChampHealth").innerHTML = "Current HP of Champ:" + hpC;
+  } while (hpAI!=0 || hpC!=0);
+  //document.getElementById("hello").innerHTML = "";
+
 
 }
