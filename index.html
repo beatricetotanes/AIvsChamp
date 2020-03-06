@@ -16,24 +16,27 @@
         <option value="heads">Heads</option>
         <option value="tails">Tails</option>
       </select><br/><br/></p>
-      <button id="hideBtn" onclick="firstChoice()">Start game</button>
+      <button onclick="firstChoice()">Start game</button>
+      <p id="toss"></p>
       <p>Champ:
         <select id="champChoice">
           <option value="punchChamp">Punch</option>
           <option value="defendChamp">Defend</option>
         </select><br/><br/>
       </p>
-      <p>AI</p>
-      <p id="toss"></p>
+      <p id="ChampHealth"></p>
+      <p id="AIHealth"></p>
+      <p id="defendAI">
       <!--
       <p>Champ Health: </p>
       <p id="hpAI"></p>
       <p>AI Health: </p>
       <p id="hpChamp"></p>
     -->
-
-      <p id="output"></p>
-      <p id="hpAI"></p>
-      <p id="hpChamp"></p>
+      <p id="hello"></p>
+      <button onclick="next()">Next</button>
+      <p>Moves:</p>
+      <br/>
+      <p id = "Moves"></p>
   </body>
 </html>
