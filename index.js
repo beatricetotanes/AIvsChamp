@@ -1,6 +1,6 @@
 var coin;
 var choice;
-var first;
+var first = "NULL";
 var defend = 3;
 var hpAI = 100;
 var hpC = 100;
@@ -13,8 +13,6 @@ var defendC;
 var countFirstChoice = 0;
 var champChoice;
 
-
-
 function firstChoice(){
   while (countFirstChoice<1) {
     choice = document.getElementById("choice").value;
@@ -23,27 +21,25 @@ function firstChoice(){
     if (choice == "heads") {
       if (coin<0.5) {
         first = "champ";
-        document.getElementById("toss").innerHTML = "Result of Coin Toss: Heads (" + coin + ")" + ", Champ goes first.";
+        document.getElementById("toss").innerHTML = "Result of Coin Toss: Heads, Champ goes first.";
       }else {
         first = "ai";
-        document.getElementById("toss").innerHTML = "Result of Coin Toss: Tails (" + coin + ")" + ", AI goes first.";
+        document.getElementById("toss").innerHTML = "Result of Coin Toss: Tails, AI goes first.";
       }
     } else if(choice == "tails"){
       if (coin<0.5) {
         first = "ai";
-        document.getElementById("toss").innerHTML = "Result of Coin Toss: Heads (" + coin + ")" + ", AI goes first.";
+        document.getElementById("toss").innerHTML = "Result of Coin Toss: Heads, AI goes first.";
       }else {
         first = "champ";
-        document.getElementById("toss").innerHTML = "Result of Coin Toss: Tails (" + coin + ")" + ", Champ goes first.";
+        document.getElementById("toss").innerHTML = "Result of Coin Toss: Tails, Champ goes first.";
       }
     }
 
     countFirstChoice++;
   }
 
-  if (countFirstChoice==1) {
-    //alert("You have already started the game.");
-  }
+  document.getElementById("start").style.visibility="hidden";
 
   startGame();
 }
@@ -57,33 +53,6 @@ function CChoice(){
     punchC = Math.round((Math.random())*5);
   }else {
     CpunchOrDefend = "d";
-  }
-}
-
-function CMove(){
-  if (CpunchOrDefend=="p") {
-    //damageAI = hpAI - punchC; //Pag magpunch si AI, then mabawas ang damage ng punch ni Champ
-    damageC = hpC - punchAI;
-
-    if (damageC<=0) {
-      hpC= 0
-    }else {
-      hpC= damageC;
-    }
-    /*
-    if (damageC<=0) {
-      hpC = 0
-    }else {
-      hpC = damageC;
-    }*/
-  } else {
-    damageC = hpC - (punchAI-defend);
-
-    if (damageC<=0) {
-      hpC = 0
-    }else {
-      hpC = damageC;
-    }
   }
 }
 
@@ -129,8 +98,8 @@ function startGame(){
     //CMove();
   }
 
-  document.getElementById("AIHealth").innerHTML = "Current HP of AI:" + hpAI;
-  document.getElementById("ChampHealth").innerHTML = "Current HP of Champ:" + hpC;
+  document.getElementById("AIHealth").innerHTML = "Current HP of AI: " + hpAI;
+  document.getElementById("ChampHealth").innerHTML = "Current HP of Champ: " + hpC;
 
 }
 
@@ -153,12 +122,11 @@ function afterNext(){
     AIChoice();
     if (AIpunchOrDefend=="p") {
       document.getElementById("moves").innerHTML += "AI has punched you with a damage of " + punchAI + ".<br>";
-      //alert("AI punched, it's your turn.");
-      //punchAI = Math.round((Math.random())*5);
-      //damage = hpAI - punchC;
+
       hpAI = hpAI - punchC;
-      //punchAI = Math.round((Math.random())*5);
-      //document.getElementById("output").innerHTML = "It's your turn. After choosing punch or defend, click next.";
+      if (hpAI<=0) {
+        hpAI = 0;
+      }
     } else {
 
       //alert("AI defended, it's your turn.");
@@ -171,6 +139,10 @@ function afterNext(){
         hpAI = hpAI - damage;
       }else {
         hpAI = hpAI - damage;
+      }
+
+      if (hpAI<=0) {
+        hpAI = 0;
       }
       document.getElementById("moves").innerHTML += "AI has defended, receiving " + damage + " damage.<br>";
     }
@@ -194,6 +166,9 @@ function choiceUser(){
     document.getElementById("moves").innerHTML += "You have punched with a damage of " + punchC + ".<br>";
     damage = punchAI;
       hpC = hpC - damage;
+      if (hpC<=0) {
+        hpC= 0;
+      }
   }else {
     damage = punchAI - defend;
     if (damage>=0) {
@@ -203,48 +178,69 @@ function choiceUser(){
       hpC = hpC-damage;
       punchC = 0;
     }
+    if (hpC<=0) {
+      hpC= 0;
+    }
     document.getElementById("moves").innerHTML += "You have defended, receiving " + damage + " damage.<br>";
   }
 }
 
 function next(){
-  do {
-    if (first == "champ") {
-
-        choiceUser();
-        afterNext();
-
-    }else {
-      champChoice = document.getElementById("champChoice").value;
-      if (champChoice == "punchChamp") {
-        punchC = Math.round((Math.random())*5);
-        document.getElementById("moves").innerHTML += "You have punched with a damage of " + punchC + ".<br>";
-        //damage = punchAI - defend;
-        //hpC = hpC - damage;
-          hpC = hpC - punchAI;
-
+  if (first == "NULL") {
+    alert("'Start game' has not been clicked");
+  }else {
+    if (hpAI>0 && hpC>0) {
+      if (first == "champ") {
+          choiceUser();
+          afterNext();
       }else {
-        damage = punchAI - defend;
-        punchC = 0;
-        if (damage>=0) {
-          hpC = hpC - damage;
+        champChoice = document.getElementById("champChoice").value;
+        if (champChoice == "punchChamp") {
+          punchC = Math.round((Math.random())*5);
+          document.getElementById("moves").innerHTML += "You have punched with a damage of " + punchC + ".<br>";
+          //damage = punchAI - defend;
+          //hpC = hpC - damage;
+            hpC = hpC - punchAI;
+            if (hpC<=0) {
+              hpC = 0;
+            }
         }else {
-          damage = 0;
-          hpC = hpC-damage;
+          damage = punchAI - defend;
+          punchC = 0;
+          if (damage>=0) {
+            hpC = hpC - damage;
+          }else {
+            damage = 0;
+            hpC = hpC-damage;
+          }
 
+          if (hpC<=0) {
+            hpC = 0;
+          }
+          document.getElementById("moves").innerHTML += "You have defended, receiving " + damage + " damage.<br>";
         }
-        document.getElementById("moves").innerHTML += "You have defended, receiving " + damage + " damage.<br>";
+        punchAI = 0;
+        afterNext();
       }
-      punchAI = 0;
-      afterNext();
+
+        //document.getElementById("hello").innerHTML = " ";
+
+      document.getElementById("AIHealth").innerHTML = "Current HP of AI: " + hpAI;
+      document.getElementById("ChampHealth").innerHTML = "Current HP of Champ: " + hpC;
+    } else {
+      if (hpC<=0) {
+        document.getElementById("winner").innerHTML = "The winner is AI!";
+      } else if (hpC<=0 && hpAI<=0) {
+        document.getElementById("winner").innerHTML = "It's a tie!";
+      }else {
+        document.getElementById("winner").innerHTML = "CONGRATULATIONS! The winner is you!";
+      }
+
+
     }
+  }
 
-      //document.getElementById("hello").innerHTML = " ";
 
-    document.getElementById("AIHealth").innerHTML = "Current HP of AI:" + hpAI;
-    document.getElementById("ChampHealth").innerHTML = "Current HP of Champ:" + hpC;
-  } while (hpAI!=0 || hpC!=0);
-  //document.getElementById("hello").innerHTML = "";
 
 
 }

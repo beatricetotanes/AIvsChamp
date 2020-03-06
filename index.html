@@ -4,19 +4,25 @@
     <script src = "index.js"></script>
     <style>
       body{
+        background-color: #2C2A4A;
         font-family: Arial;
+        color: white;
       }
     </style>
   </head>
   <body>
+    <center>
     <h1>Punch/Defend</h1>
     <p>This program is a game of punching.</p>
-      <p>Select Heads or Tails to Know if You or AI goes First:
+      <p>Select Heads or Tails to Know if You or AI goes First:<br/>
         <select id="choice">
         <option value="heads">Heads</option>
         <option value="tails">Tails</option>
-      </select><br/><br/></p>
-      <button onclick="firstChoice()">Start game</button>
+      </select><br/>
+      <b><p>Once you have chosen, click start to begin the game.</p></b>
+      </p>
+      <button id="start" onclick="firstChoice()">Start game</button><br/>
+      <button onClick="window.location.reload();">Refresh Page</button>
       <p id="toss"></p>
       <p>You:
         <select id="champChoice">
@@ -27,15 +33,11 @@
       <p id="ChampHealth"></p>
       <p id="AIHealth"></p>
       <p id="defendAI">
-      <!--
-      <p>Champ Health: </p>
-      <p id="hpAI"></p>
-      <p>AI Health: </p>
-      <p id="hpChamp"></p>
-    -->
       <p id="hello"></p>
       <button onclick="next()">Next</button>
+      <h1><marquee><p id="winner"></p></marquee></h1>
       <p>Moves:</p>
       <p id = "moves"></p>
+    </center>
   </body>
 </html>
