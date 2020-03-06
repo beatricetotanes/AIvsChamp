@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <title>AI & Champ</title>
+    <script src = "index.js"></script>
+    <style>
+      body{
+        font-family: Arial;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Punch/Defend</h1>
+    <p>This program is a game of punching.</p>
+      <p>Select Heads or Tails to Know if You or AI goes First:
+        <select id="choice">
+        <option value="heads">Heads</option>
+        <option value="tails">Tails</option>
+      </select><br/><br/></p>
+      <button id="hideBtn" onclick="firstChoice()">Start game</button>
+      <p>Champ:
+        <select id="champChoice">
+          <option value="punchChamp">Punch</option>
+          <option value="defendChamp">Defend</option>
+        </select><br/><br/>
+      </p>
+      <p>AI</p>
+      <p id="toss"></p>
+      <!--
+      <p>Champ Health: </p>
+      <p id="hpAI"></p>
+      <p>AI Health: </p>
+      <p id="hpChamp"></p>
+    -->
+
+      <p id="output"></p>
+      <p id="hpAI"></p>
+      <p id="hpChamp"></p>
+  </body>
+</html>
